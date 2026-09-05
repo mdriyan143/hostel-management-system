@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Students &mdash; Hostel &amp; Mess</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lora:wght@500;600;700&family=Work+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<script src="js/nav-toggle.js"></script>
+<button id="navToggle" class="nav-toggle" aria-label="Toggle menu">&#9776;</button>
+<div class="app-shell">
+  <aside class="sidebar">
+    <div class="brand">Hostel<span>&amp;Mess</span></div>
+    <nav>
+      <a href="index.html">Dashboard</a>
+      <a href="students.html" class="active">Students</a>
+      <a href="rooms.html">Rooms</a>
+      <a href="attendance.html">Mess attendance</a>
+      <a href="overview.html">Meal overview</a>
+      <a href="contribution.html">Contribution overview</a>
+      <a href="billing.html">Household bills</a>
+      <a href="calculation.html">Mess calculation</a>
+    </nav>
+  </aside>
+
+  <main class="main">
+    <div class="page-head">
+      <h1>Students</h1>
+      <button onclick="openForm()">Add student</button>
+    </div>
+
+    <div id="formPanel" class="form-panel" style="display:none;">
+      <h3 id="formTitle">Add student</h3>
+      <input type="hidden" id="studentId">
+      <div class="field-row">
+        <div><label for="sName">Name</label><input id="sName"></div>
+        <div><label for="sRoll">Roll / ID number</label><input id="sRoll"></div>
+      </div>
+      <div class="field-row">
+        <div><label for="sRoom">Room</label><select id="sRoom"><option value="">Unassigned</option></select></div>
+        <div><label for="sContact">Contact number</label><input id="sContact"></div>
+        <div><label for="sGuardian">Guardian contact</label><input id="sGuardian"></div>
+      </div>
+      <div id="formMsg"></div>
+      <div style="margin-top:16px; display:flex; gap:10px;">
+        <button onclick="saveStudent()">Save</button>
+        <button class="ghost" onclick="closeForm()">Cancel</button>
+      </div>
+    </div>
+
+    <table class="roll">
+      <thead><tr><th>Name</th><th>Roll</th><th>Room</th><th>Contact</th><th></th></tr></thead>
+      <tbody id="studentBody"><tr><td colspan="5">Loading&hellip;</td></tr></tbody>
+    </table>
+  </main>
+</div>
+
+<script type="module" src="js/students.js"></script>
+</body>
+</html>

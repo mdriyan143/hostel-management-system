@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dashboard &mdash; Hostel &amp; Mess</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lora:wght@500;600;700&family=Work+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<script src="js/nav-toggle.js"></script>
+<button id="navToggle" class="nav-toggle" aria-label="Toggle menu">&#9776;</button>
+<div class="app-shell">
+  <aside class="sidebar">
+    <div class="brand">Hostel<span>&amp;Mess</span></div>
+    <nav>
+      <a href="index.html" class="active">Dashboard</a>
+      <a href="students.html">Students</a>
+      <a href="rooms.html">Rooms</a>
+      <a href="attendance.html">Mess attendance</a>
+      <a href="overview.html">Meal overview</a>
+      <a href="contribution.html">Contribution overview</a>
+      <a href="billing.html">Household bills</a>
+      <a href="calculation.html">Mess calculation</a>
+    </nav>
+  </aside>
+
+  <main class="main">
+    <div class="page-head"><h1>Dashboard</h1></div>
+
+    <div class="stat-strip" id="statStrip"></div>
+
+    <h2>Rooms nearing full</h2>
+    <table class="roll">
+      <thead><tr><th>Room</th><th class="num">Occupied</th><th class="num">Capacity</th><th></th></tr></thead>
+      <tbody id="roomBody"><tr><td colspan="4">Loading&hellip;</td></tr></tbody>
+    </table>
+  </main>
+</div>
+
+<script type="module">
+  import { store } from "./js/store.js";
+
+  const todayStr = () => new Date().toISOString().slice(0, 10);
+
+  const students = store.list('students');
+  const rooms = store.list('rooms');
+  const attendance = store.list('attendance');
+
+  const occupancy = {};
+  students.forEach(s => { if (s.roomId) occupancy[s.roomId] = (occupancy[s.roomId] || 0) + 1; });
+
+  const attendanceToday = attendance.filter(a => a.date === todayStr()).length;
+  const totalCapacity = rooms.reduce((sum, r) => sum + Number(r.capacity || 0), 0);
+  const totalOccupied = Object.values(occupancy).reduce((sum, n) => sum + n, 0);
+
+  document.getElementById('statStrip').innerHTML = `
+    <div class="stat"><div class="label">students</div><div class="value">${students.length}</div></div>
+    <div class="stat"><div class="label">rooms occupied</div><div class="value tabular">${totalOccupied} / ${totalCapacity}</div></div>
+    <div class="stat"><div class="label">marked present today</div><div class="value accent tabular">${attendanceToday}</div></div>
+  `;
+
+  const nearFull = rooms
+    .map(r => ({ ...r, occupied: occupancy[r.id] || 0 }))
+    .filter(r => r.occupied >= Number(r.capacity || 0) - 1)
+    .sort((a, b) => b.occupied - a.occupied);
+
+  document.getElementById('roomBody').innerHTML = nearFull.length
+    ? nearFull.map(r => `
+        <tr>
+          <td>${r.roomNumber}</td>
+          <td class="num tabular">${r.occupied}</td>
+          <td class="num tabular">${r.capacity}</td>
+          <td>${r.occupied >= r.capacity ? '<span class="tag full">full</span>' : '<span class="tag">1 spot left</span>'}</td>
+        </tr>`).join('')
+    : '<tr><td colspan="4">No rooms are near capacity.</td></tr>';
+</script>
+</body>
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Household Bills &mdash; Hostel &amp; Mess</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lora:wght@500;600;700&family=Work+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<script src="js/nav-toggle.js"></script>
+<button id="navToggle" class="nav-toggle" aria-label="Toggle menu">&#9776;</button>
+<div class="app-shell">
+  <aside class="sidebar">
+    <div class="brand">Hostel<span>&amp;Mess</span></div>
+    <nav>
+      <a href="index.html">Dashboard</a>
+      <a href="students.html">Students</a>
+      <a href="rooms.html">Rooms</a>
+      <a href="attendance.html">Mess attendance</a>
+      <a href="overview.html">Meal overview</a>
+      <a href="contribution.html">Contribution overview</a>
+      <a href="billing.html" class="active">Household bills</a>
+      <a href="calculation.html">Mess calculation</a>
+    </nav>
+  </aside>
+
+  <main class="main">
+    <div class="page-head">
+      <h1>Household bills</h1>
+      <div><label for="billMonth" style="margin:0; display:inline;">Month</label> <input id="billMonth" type="month" style="width:auto; display:inline-block;"></div>
+    </div>
+    <p style="color:var(--ink-soft); font-size:0.9rem; max-width:560px; margin-top:-10px;">
+      Room rent is billed per-person from their assigned room. Water, gas, electricity, and cooking bills are logged here and split equally across everyone &mdash; entirely separate from mess/grocery calculation.
+    </p>
+
+    <h2 style="margin-top:24px;">Utility &amp; cooking bills</h2>
+    <div class="field-row">
+      <div>
+        <label for="uCategory">Category</label>
+        <select id="uCategory">
+          <option value="Water">Water</option>
+          <option value="Gas">Gas</option>
+          <option value="Electricity">Electricity</option>
+          <option value="Cooking">Cooking bill</option>
+        </select>
+      </div>
+      <div><label for="uAmount">Amount</label><input id="uAmount" type="number" step="0.01" min="0"></div>
+      <div><label for="uNote">Note</label><input id="uNote" placeholder="optional"></div>
+    </div>
+    <button onclick="addUtility()" style="margin-top:10px;">Add bill entry</button>
+    <div id="utilityMsg"></div>
+
+    <table class="roll" style="margin-top:14px;">
+      <thead><tr><th>Category</th><th>Note</th><th class="num">Amount</th><th></th></tr></thead>
+      <tbody id="utilityBody"></tbody>
+      <tfoot>
+        <tr><td colspan="2"><strong>Total utilities</strong></td><td class="num tabular" id="utilityTotal">0.00</td><td></td></tr>
+      </tfoot>
+    </table>
+
+    <h2 style="margin-top:32px;">Per-person breakdown</h2>
+    <table class="roll">
+      <thead><tr><th>Name</th><th>Room</th><th class="num">Room rent</th><th class="num">Utility share</th><th class="num">Total due</th></tr></thead>
+      <tbody id="breakdownBody"></tbody>
+    </table>
+
+    <h2 style="margin-top:36px;">Month-end housekeeping</h2>
+    <p style="color:var(--ink-soft); font-size:0.9rem; max-width:480px;">
+      Once a month's bills are settled, clear its utility entries to keep the log short. Rooms, rent, and students stay untouched.
+    </p>
+    <button class="danger" onclick="clearOldUtilities()">Clear utility entries older than selected month</button>
+    <div id="clearMsg"></div>
+  </main>
+</div>
+
+<script type="module" src="js/billing.js"></script>
+</body>
+</html>

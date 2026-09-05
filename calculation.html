@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mess Calculation &mdash; Hostel &amp; Mess</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lora:wght@500;600;700&family=Work+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<script src="js/nav-toggle.js"></script>
+<button id="navToggle" class="nav-toggle" aria-label="Toggle menu">&#9776;</button>
+<div class="app-shell">
+  <aside class="sidebar">
+    <div class="brand">Hostel<span>&amp;Mess</span></div>
+    <nav>
+      <a href="index.html">Dashboard</a>
+      <a href="students.html">Students</a>
+      <a href="rooms.html">Rooms</a>
+      <a href="attendance.html">Mess attendance</a>
+      <a href="overview.html">Meal overview</a>
+      <a href="contribution.html">Contribution overview</a>
+      <a href="billing.html">Household bills</a>
+      <a href="calculation.html" class="active">Mess calculation</a>
+    </nav>
+  </aside>
+
+  <main class="main">
+    <div class="page-head">
+      <h1>Mess calculation</h1>
+      <div><label for="calcMonth" style="margin:0; display:inline;">Month</label> <input id="calcMonth" type="month" style="width:auto; display:inline-block;"></div>
+    </div>
+
+    <h2>Grocery spending</h2>
+    <div class="field-row">
+      <div><label for="gPerson">Spent by</label><select id="gPerson"></select></div>
+      <div><label for="gAmount">Amount</label><input id="gAmount" type="number" step="0.01" min="0"></div>
+      <div><label for="gNote">Note</label><input id="gNote" placeholder="rice, oil, veggies&hellip;"></div>
+    </div>
+    <button onclick="addGrocery()" style="margin-top:10px;">Add grocery entry</button>
+    <div id="groceryMsg"></div>
+    <table class="roll" style="margin-top:14px;">
+      <thead><tr><th>Person</th><th>Note</th><th class="num">Amount</th><th></th></tr></thead>
+      <tbody id="groceryBody"></tbody>
+    </table>
+
+    <h2 style="margin-top:32px;">Deposits</h2>
+    <div class="field-row">
+      <div><label for="dPerson">Deposited by</label><select id="dPerson"></select></div>
+      <div><label for="dAmount">Amount</label><input id="dAmount" type="number" step="0.01" min="0"></div>
+    </div>
+    <button onclick="addDeposit()" style="margin-top:10px;">Add deposit</button>
+    <div id="depositMsg"></div>
+    <table class="roll" style="margin-top:14px;">
+      <thead><tr><th>Person</th><th class="num">Amount</th><th></th></tr></thead>
+      <tbody id="depositBody"></tbody>
+    </table>
+
+    <h2 style="margin-top:32px;">Bibidh (miscellaneous) expenses</h2>
+    <div class="field-row">
+      <div><label for="bDesc">Description</label><input id="bDesc" placeholder="cleaning supplies, repairs&hellip;"></div>
+      <div><label for="bAmount">Amount</label><input id="bAmount" type="number" step="0.01" min="0"></div>
+    </div>
+    <button onclick="addBibidh()" style="margin-top:10px;">Add bibidh entry</button>
+    <div id="bibidhMsg"></div>
+    <table class="roll" style="margin-top:14px;">
+      <thead><tr><th>Description</th><th class="num">Amount</th><th></th></tr></thead>
+      <tbody id="bibidhBody"></tbody>
+    </table>
+
+    <h2 style="margin-top:32px;">Settlement</h2>
+    <button onclick="calculateSettlement()">Calculate settlement for this month</button>
+    <div id="settlementPanel"></div>
+
+    <h2 style="margin-top:36px;">Month-end housekeeping</h2>
+    <p style="color:var(--ink-soft); font-size:0.9rem; max-width:480px;">
+      Once a month is settled, you can clear its grocery, deposit, and bibidh entries to keep the logs short. Students, rooms, and attendance history are untouched.
+    </p>
+    <button class="danger" onclick="clearOldEntries()">Clear grocery/deposit/bibidh entries older than selected month</button>
+    <div id="clearMsg"></div>
+  </main>
+</div>
+
+<script type="module" src="js/calculation.js"></script>
+</body>
+</html>

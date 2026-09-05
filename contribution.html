@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Contribution Overview &mdash; Hostel &amp; Mess</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lora:wght@500;600;700&family=Work+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<script src="js/nav-toggle.js"></script>
+<button id="navToggle" class="nav-toggle" aria-label="Toggle menu">&#9776;</button>
+<div class="app-shell">
+  <aside class="sidebar">
+    <div class="brand">Hostel<span>&amp;Mess</span></div>
+    <nav>
+      <a href="index.html">Dashboard</a>
+      <a href="students.html">Students</a>
+      <a href="rooms.html">Rooms</a>
+      <a href="attendance.html">Mess attendance</a>
+      <a href="overview.html">Meal overview</a>
+      <a href="contribution.html" class="active">Contribution overview</a>
+      <a href="billing.html">Household bills</a>
+      <a href="calculation.html">Mess calculation</a>
+    </nav>
+  </aside>
+
+  <main class="main">
+    <div class="page-head">
+      <h1>Contribution overview</h1>
+      <div><label for="coMonth" style="margin:0; display:inline;">Month</label> <input id="coMonth" type="month" style="width:auto; display:inline-block;"></div>
+    </div>
+    <p style="color:var(--ink-soft); font-size:0.9rem; max-width:560px; margin-top:-10px;">
+      Live view of deposits and grocery spending logged on the Mess calculation page &mdash; updates automatically as entries are added there. Rows below the group average deposit are flagged.
+    </p>
+
+    <div class="stat-strip" id="coStats"></div>
+
+    <table class="roll">
+      <thead><tr><th>Name</th><th class="num">Deposited</th><th class="num">Grocery spent</th><th class="num">Total contribution</th><th></th></tr></thead>
+      <tbody id="coBody"></tbody>
+    </table>
+  </main>
+</div>
+
+<script type="module" src="js/contribution.js"></script>
+</body>
+</html>

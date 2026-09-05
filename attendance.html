@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mess Attendance &mdash; Hostel &amp; Mess</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lora:wght@500;600;700&family=Work+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<script src="js/nav-toggle.js"></script>
+<button id="navToggle" class="nav-toggle" aria-label="Toggle menu">&#9776;</button>
+<div class="app-shell">
+  <aside class="sidebar">
+    <div class="brand">Hostel<span>&amp;Mess</span></div>
+    <nav>
+      <a href="index.html">Dashboard</a>
+      <a href="students.html">Students</a>
+      <a href="rooms.html">Rooms</a>
+      <a href="attendance.html" class="active">Mess attendance</a>
+      <a href="overview.html">Meal overview</a>
+      <a href="contribution.html">Contribution overview</a>
+      <a href="billing.html">Household bills</a>
+      <a href="calculation.html">Mess calculation</a>
+    </nav>
+  </aside>
+
+  <main class="main">
+    <div class="page-head">
+      <h1>Mess attendance</h1>
+      <div><label for="attDate" style="margin:0; display:inline;">Date</label> <input id="attDate" type="date" style="width:auto; display:inline-block;"></div>
+    </div>
+    <p style="color:var(--ink-soft); font-size:0.9rem; max-width:480px; margin-top:-10px;">
+      Only today and yesterday can be marked, to keep the roll call accurate. Breakfast counts as 0.5 of a meal, lunch and dinner each count as 1.
+    </p>
+
+    <div id="saveMsg"></div>
+
+    <table class="roll">
+      <thead><tr><th>Name</th><th>Roll</th><th class="center">Breakfast (0.5)</th><th class="center">Lunch (1)</th><th class="center">Dinner (1)</th></tr></thead>
+      <tbody id="attBody"><tr><td colspan="5">Loading&hellip;</td></tr></tbody>
+    </table>
+
+    <button onclick="saveAttendance()" style="margin-top:18px;">Save roll call for this date</button>
+    <button class="ghost" onclick="clearDayCheckboxes()" style="margin-top:18px;">Clear this day (unchecked, not saved yet)</button>
+
+    <h2 style="margin-top:36px;">Month-end housekeeping</h2>
+    <p style="color:var(--ink-soft); font-size:0.9rem; max-width:480px;">
+      Once a month's meals are settled on the Mess calculation page, you can clear its attendance records to keep things tidy. Students, rooms, and rent are untouched.
+    </p>
+    <label for="cutoffMonth" style="max-width:160px;">Clear before month</label>
+    <input id="cutoffMonth" type="month" style="max-width:160px;">
+    <button class="danger" onclick="clearOldAttendance()" style="margin-top:10px;">Clear attendance older than this month</button>
+    <div id="clearMsg"></div>
+  </main>
+</div>
+
+<script type="module" src="js/attendance.js"></script>
+</body>
+</html>

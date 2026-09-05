@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Meal Overview &mdash; Hostel &amp; Mess</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lora:wght@500;600;700&family=Work+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<script src="js/nav-toggle.js"></script>
+<button id="navToggle" class="nav-toggle" aria-label="Toggle menu">&#9776;</button>
+<div class="app-shell">
+  <aside class="sidebar">
+    <div class="brand">Hostel<span>&amp;Mess</span></div>
+    <nav>
+      <a href="index.html">Dashboard</a>
+      <a href="students.html">Students</a>
+      <a href="rooms.html">Rooms</a>
+      <a href="attendance.html">Mess attendance</a>
+      <a href="overview.html" class="active">Meal overview</a>
+      <a href="contribution.html">Contribution overview</a>
+      <a href="billing.html">Household bills</a>
+      <a href="calculation.html">Mess calculation</a>
+    </nav>
+  </aside>
+
+  <main class="main" style="max-width:none;">
+    <div class="page-head">
+      <h1>Meal overview</h1>
+      <div><label for="ovMonth" style="margin:0; display:inline;">Month</label> <input id="ovMonth" type="month" style="width:auto; display:inline-block;"></div>
+    </div>
+
+    <p style="color:var(--ink-soft); font-size:0.9rem;">
+      Each cell is one person's weighted meal total for that day (breakfast 0.5, lunch 1, dinner 1 &mdash; max 2.5/day). Blank means attendance wasn't marked that day.
+    </p>
+
+    <div class="legend">
+      <span>Fewer meals</span>
+      <span class="swatch" style="background:#F2EDE0;"></span>
+      <span class="swatch" style="background:#DCEBDA;"></span>
+      <span class="swatch" style="background:#C0DCBD;"></span>
+      <span class="swatch" style="background:#9DCB98;"></span>
+      <span class="swatch" style="background:#78B472;"></span>
+      <span class="swatch" style="background:var(--sage-dark);"></span>
+      <span>More meals</span>
+      <span class="swatch" style="margin-left:20px; background:var(--panel); border-style:dashed;"></span>
+      <span>Not marked</span>
+    </div>
+
+    <div class="heatmap-wrap">
+      <table class="heatmap" id="heatmapTable"></table>
+    </div>
+  </main>
+</div>
+
+<script type="module" src="js/overview.js"></script>
+</body>
+</html>
