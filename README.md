@@ -8,7 +8,7 @@ The application is completely **frontend-based** and uses the browser's **Local 
 
 ## 🌐 Live Demo
 
-🚀 **Live Website:** [Visit the Hostel & Mess Management System](YOUR_LIVE_LINK_HERE)
+🚀 **Live Website:** https://mdriyan143.github.io/Hostel-Management-System/
 
 Explore the live application and manage:
 
