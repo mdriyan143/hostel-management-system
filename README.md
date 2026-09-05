@@ -8,7 +8,7 @@ The application is completely **frontend-based** and uses the browser's **Local 
 
 ## 🌐 Live Demo
 
-🚀 **Live Website:** https://mdriyan143.github.io/Hostel-Management-System/
+🚀 **Live Website:** https://mdriyan143.github.io/hostel-management-system/
 
 Explore the live application and manage:
 
