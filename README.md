@@ -78,8 +78,6 @@ The meal attendance system allows tracking of:
 * Dinner
 * Daily weighted meal totals
 
-To keep attendance records accurate, only **today and yesterday** can be marked.
-
 ---
 
 ### 📅 Meal Overview
