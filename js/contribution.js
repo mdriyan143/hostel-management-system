@@ -9,6 +9,7 @@ function render() {
   const month = monthInput.value;
   const deposits = store.list('deposits').filter(d => d.month === month);
   const groceries = store.list('groceryEntries').filter(g => g.month === month);
+  const managerGroceries = store.list('managerGroceryEntries').filter(m => m.month === month);
 
   const rows = students.map(s => {
     const deposited = deposits.filter(d => d.studentId === s.id).reduce((sum, d) => sum + Number(d.amount), 0);
@@ -18,11 +19,13 @@ function render() {
 
   const totalDeposited = rows.reduce((sum, r) => sum + r.deposited, 0);
   const totalGrocery = rows.reduce((sum, r) => sum + r.grocerySpent, 0);
+  const totalManagerGrocery = managerGroceries.reduce((sum, m) => sum + Number(m.amount), 0);
   const avgDeposit = students.length > 0 ? totalDeposited / students.length : 0;
 
   document.getElementById('coStats').innerHTML = `
     <div class="stat"><div class="label">total deposited</div><div class="value tabular">${totalDeposited.toFixed(2)}</div></div>
-    <div class="stat"><div class="label">total grocery spending</div><div class="value tabular">${totalGrocery.toFixed(2)}</div></div>
+    <div class="stat"><div class="label">total personal grocery spending</div><div class="value tabular">${totalGrocery.toFixed(2)}</div></div>
+    <div class="stat"><div class="label">manager (pool) spending</div><div class="value tabular">${totalManagerGrocery.toFixed(2)}</div></div>
     <div class="stat"><div class="label">average deposit / person</div><div class="value accent tabular">${avgDeposit.toFixed(2)}</div></div>
   `;
 

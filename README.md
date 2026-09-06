@@ -1,6 +1,6 @@
 # 🏠 Hostel & Mess Management System
 
-A modern and simple **Hostel & Mess Management System** designed to manage students, rooms, meal attendance, grocery expenses, deposits, household bills, and monthly mess settlements.
+A modern and simple **Hostel & Mess Management System** designed to manage students, rooms, meal attendance, grocery expenses, mess deposits, miscellaneous expenses, household bills, and monthly mess settlements.
 
 The application is completely **frontend-based** and uses the browser's **Local Storage** for data persistence. No backend, database, login system, or installation is required.
 
@@ -8,15 +8,19 @@ The application is completely **frontend-based** and uses the browser's **Local 
 
 ## 🌐 Live Demo
 
-🚀 **Live Website:** https://mdriyan143.github.io/hostel-management-system/
+🚀 **Live Website:**
+https://mdriyan143.github.io/hostel-management-system/
 
 Explore the live application and manage:
 
 * 👨‍🎓 Students
 * 🚪 Rooms
 * 🍽️ Meal Attendance
+* 📅 Meal Overview
+* 📊 Meal Rate Breakdown
+* 💰 Contribution Overview
 * 🛒 Grocery Expenses
-* 💰 Mess Deposits
+* 💵 Mess Deposits
 * 📦 Bibidh Expenses
 * 🧮 Monthly Mess Calculations
 * 🏠 Household Bills
@@ -27,12 +31,12 @@ Explore the live application and manage:
 
 ### 📊 Dashboard
 
-Get a quick overview of the hostel, including:
+Get a quick overview of the hostel and mess system, including:
 
 * Total number of students
 * Room occupancy and capacity
-* Students marked present today
-* Rooms that are full or nearly full
+* Students marked present
+* Full or nearly full rooms
 
 ---
 
@@ -63,7 +67,7 @@ Manage hostel rooms and their capacity.
 
 Track daily meal attendance for every student.
 
-The system supports:
+The system supports weighted meals:
 
 | Meal         | Weight |
 | ------------ | ------ |
@@ -71,7 +75,7 @@ The system supports:
 | 🍛 Lunch     | 1      |
 | 🍽️ Dinner   | 1      |
 
-The meal attendance system allows tracking of:
+The attendance system allows tracking of:
 
 * Breakfast
 * Lunch
@@ -93,7 +97,27 @@ Features include:
 * Total meals consumed by the entire hostel
 * Visual meal activity indicators
 
-This makes it easy to identify attendance and meal consumption patterns before calculating the monthly mess settlement.
+This makes it easy to review attendance and meal consumption before calculating the monthly mess settlement.
+
+---
+
+### 📊 Meal Rate Breakdown
+
+View a detailed breakdown of how the monthly meal rate is calculated.
+
+The system considers:
+
+* Personal grocery expenses
+* Manager or shared grocery expenses
+* Total grocery spending
+* Total meals consumed
+* Calculated meal rate
+
+The meal rate is automatically calculated using:
+
+```text
+Meal Rate = Total Grocery Cost ÷ Total Meals
+```
 
 ---
 
@@ -108,7 +132,7 @@ The system automatically displays:
 * Individual contribution amount
 * Contribution status
 
-Students whose deposits are significantly lower than the group average can be identified as being behind on their contributions.
+Students whose contributions are significantly lower than the group average can easily be identified.
 
 ---
 
@@ -122,6 +146,8 @@ For every grocery entry, you can record:
 * Grocery amount
 * Optional note
 * Selected month
+
+The system also supports shared or manager grocery expenses.
 
 All grocery expenses are included in the final mess calculation.
 
@@ -147,15 +173,29 @@ Manage shared miscellaneous expenses such as:
 * Small shared expenses
 * Other mess-related costs
 
-Bibidh expenses are divided equally among all students during settlement.
+Bibidh expenses are divided equally among all students during the monthly settlement.
 
 ---
 
+### 🧮 Monthly Mess Settlement
 
-### 📈 Settlement Result
+Calculate the final monthly mess settlement for every student.
 
-* Positive balance → 💚 The person gets money back
-* Negative balance → 🔴 The person needs to pay more
+The calculation considers:
+
+* Total meals consumed
+* Individual meal cost
+* Total grocery expenses
+* Mess deposits
+* Personal grocery contributions
+* Bibidh expense share
+
+The system automatically calculates each person's final balance.
+
+#### 📈 Settlement Result
+
+* 💚 **Positive Balance** → The person gets money back
+* 🔴 **Negative Balance** → The person needs to pay more
 
 ---
 
@@ -171,7 +211,9 @@ The system supports:
 * ⚡ Electricity bills
 * 🍳 Cooking-related bills
 
+Each student's applicable share can be calculated separately from the monthly mess settlement.
 
+---
 
 ## 🛠️ Technologies Used
 
@@ -211,6 +253,7 @@ hostel-mess-management-system/
 ├── contribution.html
 ├── billing.html
 ├── calculation.html
+├── meal-rate.html
 │
 ├── css/
 │   └── style.css
@@ -224,14 +267,15 @@ hostel-mess-management-system/
     ├── overview.js
     ├── contribution.js
     ├── billing.js
-    └── calculation.js
+    ├── calculation.js
+    └── meal-rate.js
 ```
 
 ---
 
 ## 📖 Recommended Workflow
 
-For the best experience, use the system in this order:
+For the best experience, use the system in the following order:
 
 ### 1️⃣ Add Rooms
 
@@ -241,17 +285,23 @@ Create hostel rooms with:
 * Capacity
 * Monthly rent
 
+---
+
 ### 2️⃣ Add Students
 
-Add students and assign them to their rooms.
+Add students and assign them to their respective rooms.
+
+---
 
 ### 3️⃣ Track Daily Attendance
 
-Record:
+Record each student's:
 
 * Breakfast
 * Lunch
 * Dinner
+
+---
 
 ### 4️⃣ Record Grocery Expenses
 
@@ -261,15 +311,33 @@ Whenever someone purchases groceries, record:
 * Amount
 * Optional note
 
+You can also record shared or manager grocery expenses.
+
+---
+
 ### 5️⃣ Record Mess Deposits
 
 Add each person's deposits to the shared mess fund.
+
+---
 
 ### 6️⃣ Add Bibidh Expenses
 
 Record shared miscellaneous expenses.
 
-### 7️⃣ Calculate Monthly Settlement
+---
+
+### 7️⃣ Review Meal Rate
+
+Check:
+
+* Total grocery expenses
+* Total meals
+* Monthly meal rate
+
+---
+
+### 8️⃣ Calculate Monthly Settlement
 
 At the end of the month:
 
@@ -277,7 +345,7 @@ At the end of the month:
 * Calculate the settlement
 * Review meals and expenses
 * Check individual contributions
-* View final balances
+* View the final balances
 
 ---
 
@@ -289,17 +357,19 @@ Possible future features include:
 * ☁️ Cloud database integration
 * 🔥 Firebase integration
 * 👥 Multiple user access
+* 🌐 Real-time shared hostel data
 * 📱 Improved mobile responsiveness
 * 📊 Advanced analytics and charts
 * 📄 Monthly bill export as PDF
 * 📥 Excel export
 * 🔔 Payment and deposit notifications
-* 🌐 Real-time shared hostel data
 
 ---
 
 ## 👨‍💻 Author
 
-Developed by **Md Riyan Biswas**.
+Developed by **Md Riyan Biswas**
 
+---
 
+⭐ If you find this project useful, consider giving the repository a star!

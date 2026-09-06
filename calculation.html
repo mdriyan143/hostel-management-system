@@ -2,7 +2,6 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Mess Calculation &mdash; Hostel &amp; Mess</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lora:wght@500;600;700&family=Work+Sans:wght@400;500;600&display=swap">
 <link rel="stylesheet" href="css/style.css">
@@ -22,6 +21,7 @@
       <a href="contribution.html">Contribution overview</a>
       <a href="billing.html">Household bills</a>
       <a href="calculation.html" class="active">Mess calculation</a>
+      <a href="meal-rate.html">Meal rate breakdown</a>
     </nav>
   </aside>
 
@@ -31,7 +31,10 @@
       <div><label for="calcMonth" style="margin:0; display:inline;">Month</label> <input id="calcMonth" type="month" style="width:auto; display:inline-block;"></div>
     </div>
 
-    <h2>Grocery spending</h2>
+    <h2>Personal grocery spending</h2>
+    <p style="color:var(--ink-soft); font-size:0.88rem; max-width:600px; margin-top:-6px;">
+      Money someone spent from their own pocket on groceries. This adds to that person's individual contribution.
+    </p>
     <div class="field-row">
       <div><label for="gPerson">Spent by</label><select id="gPerson"></select></div>
       <div><label for="gAmount">Amount</label><input id="gAmount" type="number" step="0.01" min="0"></div>
@@ -42,6 +45,21 @@
     <table class="roll" style="margin-top:14px;">
       <thead><tr><th>Person</th><th>Note</th><th class="num">Amount</th><th></th></tr></thead>
       <tbody id="groceryBody"></tbody>
+    </table>
+
+    <h2 style="margin-top:32px;">Manager grocery spending (from deposited pool)</h2>
+    <p style="color:var(--ink-soft); font-size:0.88rem; max-width:600px; margin-top:-6px;">
+      Groceries bought using the common deposit fund &mdash; not tied to any one person, and doesn't add to anyone's individual contribution (that money is already covered by deposits). Still counts toward the total grocery cost for the meal rate.
+    </p>
+    <div class="field-row">
+      <div><label for="mgAmount">Amount</label><input id="mgAmount" type="number" step="0.01" min="0"></div>
+      <div><label for="mgNote">Note</label><input id="mgNote" placeholder="rice, oil, veggies&hellip;"></div>
+    </div>
+    <button onclick="addManagerGrocery()" style="margin-top:10px;">Add pool spending entry</button>
+    <div id="managerGroceryMsg"></div>
+    <table class="roll" style="margin-top:14px;">
+      <thead><tr><th>Note</th><th class="num">Amount</th><th></th></tr></thead>
+      <tbody id="managerGroceryBody"></tbody>
     </table>
 
     <h2 style="margin-top:32px;">Deposits</h2>
@@ -69,6 +87,9 @@
     </table>
 
     <h2 style="margin-top:32px;">Settlement</h2>
+    <p style="color:var(--ink-soft); font-size:0.9rem; max-width:560px; margin-top:-10px;">
+      Each time you calculate, the result is saved under that month. Just pick any past month above to see its saved settlement again &mdash; even after its grocery/deposit/bibidh entries have been cleared.
+    </p>
     <button onclick="calculateSettlement()">Calculate settlement for this month</button>
     <div id="settlementPanel"></div>
 

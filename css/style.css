@@ -84,11 +84,13 @@ a { transition: color 0.15s var(--ease); }
   transition: width 0.22s var(--ease), padding 0.22s var(--ease);
 }
 
-body.nav-collapsed .sidebar {
-  width: 0;
-  padding-left: 0;
-  padding-right: 0;
-  border-right-color: transparent;
+@media (min-width: 861px) {
+  body.nav-collapsed .sidebar {
+    width: 0;
+    padding-left: 0;
+    padding-right: 0;
+    border-right-color: transparent;
+  }
 }
 
 .nav-toggle {
@@ -351,16 +353,6 @@ button.danger { background: linear-gradient(180deg, #C24D34 0%, var(--alert) 100
 }
 .msg.error { border-left-color: var(--alert); color: var(--alert); background: var(--alert-tint); }
 
-/* ---------- Inline add/edit form panel (students, rooms) ---------- */
-.form-panel {
-  background: var(--panel);
-  border: 1px solid var(--line);
-  border-radius: var(--radius-md);
-  box-shadow: var(--shadow-sm);
-  padding: 22px 24px;
-  margin-bottom: 24px;
-}
-
 /* ---------- Login (logbook cover style) ---------- */
 .login-wrap {
   display: flex;
@@ -412,13 +404,14 @@ button.danger { background: linear-gradient(180deg, #C24D34 0%, var(--alert) 100
 
 /* =========================================================
    Responsive — tablet & mobile
-   Sidebar becomes an off-canvas drawer driven by the existing
-   .nav-collapsed toggle; content reflows to a single column.
+   Sidebar becomes an off-canvas drawer, closed by default each
+   page load, opened via the .mobile-nav-open class (separate
+   from the desktop .nav-collapsed push/collapse toggle).
    ========================================================= */
 @media (max-width: 860px) {
   .main { padding: 84px 24px 48px; max-width: 100%; }
 
-  /* Sidebar becomes a fixed overlay drawer instead of pushing content */
+  /* Sidebar becomes a fixed overlay drawer, hidden by default */
   .sidebar {
     position: fixed;
     top: 0;
@@ -427,17 +420,16 @@ button.danger { background: linear-gradient(180deg, #C24D34 0%, var(--alert) 100
     height: 100vh;
     width: min(78vw, 260px);
     padding-top: 72px;
-    transform: translateX(0);
+    transform: translateX(-100%);
     box-shadow: var(--shadow-lg);
     transition: transform 0.25s var(--ease);
-  }
-  /* On mobile the toggle HIDES the drawer (inverse of desktop's collapse-to-push) */
-  body.nav-collapsed .sidebar {
-    width: min(78vw, 260px);
-    transform: translateX(-100%);
     border-right: 1px solid var(--line);
   }
-  body:not(.nav-collapsed)::after {
+  /* Tapping the toggle opens the drawer on mobile */
+  body.mobile-nav-open .sidebar {
+    transform: translateX(0);
+  }
+  body.mobile-nav-open::after {
     content: "";
     position: fixed;
     inset: 0;

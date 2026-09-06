@@ -3,7 +3,7 @@ import { store } from "./store.js";
 const students = store.list('students');
 const monthInput = document.getElementById('calcMonth');
 monthInput.value = new Date().toISOString().slice(0, 7);
-monthInput.onchange = renderLogs;
+monthInput.onchange = () => { renderLogs(); showSavedSettlement(); };
 
 function studentName(id) {
   const s = students.find(s => s.id === id);
@@ -30,7 +30,17 @@ function renderLogs() {
           <td class="num tabular">${Number(g.amount).toFixed(2)}</td>
           <td><button class="danger" onclick="removeEntry('groceryEntries','${g.id}')">Delete</button></td>
         </tr>`).join('')
-    : '<tr><td colspan="4">No grocery spending logged for this month yet.</td></tr>';
+    : '<tr><td colspan="4">No personal grocery spending logged for this month yet.</td></tr>';
+
+  const managerGroceries = store.list('managerGroceryEntries').filter(m => m.month === month);
+  document.getElementById('managerGroceryBody').innerHTML = managerGroceries.length
+    ? managerGroceries.map(m => `
+        <tr>
+          <td>${m.note || '\u2014'}</td>
+          <td class="num tabular">${Number(m.amount).toFixed(2)}</td>
+          <td><button class="danger" onclick="removeEntry('managerGroceryEntries','${m.id}')">Delete</button></td>
+        </tr>`).join('')
+    : '<tr><td colspan="3">No pool spending logged for this month yet.</td></tr>';
 
   const deposits = store.list('deposits').filter(d => d.month === month);
   document.getElementById('depositBody').innerHTML = deposits.length
@@ -51,8 +61,6 @@ function renderLogs() {
           <td><button class="danger" onclick="removeEntry('bibidhEntries','${b.id}')">Delete</button></td>
         </tr>`).join('')
     : '<tr><td colspan="3">No bibidh expenses logged for this month yet.</td></tr>';
-
-  document.getElementById('settlementPanel').innerHTML = '';
 }
 
 window.addGrocery = () => {
@@ -67,6 +75,21 @@ window.addGrocery = () => {
   });
   document.getElementById('gAmount').value = '';
   document.getElementById('gNote').value = '';
+  msg.innerHTML = '';
+  renderLogs();
+};
+
+window.addManagerGrocery = () => {
+  const amount = parseFloat(document.getElementById('mgAmount').value);
+  const msg = document.getElementById('managerGroceryMsg');
+  if (!amount || amount <= 0) { msg.innerHTML = '<div class="msg error">Enter a valid amount.</div>'; return; }
+  store.add('managerGroceryEntries', {
+    amount,
+    note: document.getElementById('mgNote').value.trim(),
+    month: currentMonth(),
+  });
+  document.getElementById('mgAmount').value = '';
+  document.getElementById('mgNote').value = '';
   msg.innerHTML = '';
   renderLogs();
 };
@@ -102,16 +125,71 @@ window.removeEntry = (collectionName, id) => {
   renderLogs();
 };
 
+function renderSettlementPanel(data) {
+  const panel = document.getElementById('settlementPanel');
+  const totalDeposits = data.totalDeposits || 0;
+  const managerBalance = totalDeposits - data.totalManagerGrocery;
+  let managerLine;
+  if (managerBalance > 0) {
+    managerLine = `Manager is holding <strong class="amt-positive">${managerBalance.toFixed(2)} extra</strong> (deposits collected minus what was spent on groceries).`;
+  } else if (managerBalance < 0) {
+    managerLine = `Manager spent <strong class="amt-negative">${Math.abs(managerBalance).toFixed(2)} more</strong> than was deposited &mdash; needs reimbursing from the group.`;
+  } else {
+    managerLine = `Manager's pool is exactly balanced &mdash; nothing extra, nothing owed.`;
+  }
+
+  panel.innerHTML = `
+    <div class="stat-strip" style="margin-top:20px; flex-wrap:wrap;">
+      <div class="stat"><div class="label">total deposits collected</div><div class="value tabular">${totalDeposits.toFixed(2)}</div></div>
+      <div class="stat"><div class="label">manager (pool) spending</div><div class="value tabular">${data.totalManagerGrocery.toFixed(2)}</div></div>
+      <div class="stat"><div class="label">personal grocery spending</div><div class="value tabular">${data.totalPersonalGrocery.toFixed(2)}</div></div>
+      <div class="stat"><div class="label">total meals (all people)</div><div class="value tabular">${data.totalMeals.toFixed(1)}</div></div>
+      <div class="stat"><div class="label">meal rate</div><div class="value accent tabular">${data.mealRate.toFixed(2)}</div></div>
+      <div class="stat"><div class="label">bibidh / person</div><div class="value tabular">${data.bibidhShare.toFixed(2)}</div></div>
+    </div>
+    <p class="msg" style="margin-top:0;">${managerLine}</p>
+    <table class="roll">
+      <thead><tr><th>Name</th><th class="num">Meals</th><th class="num">Meal cost</th><th class="num">Bibidh share</th><th class="num">Final cost</th><th class="num">Contribution</th><th class="num">Balance</th></tr></thead>
+      <tbody>
+        ${data.rows.map(r => `
+          <tr>
+            <td>${r.name}</td>
+            <td class="num tabular">${r.meals.toFixed(1)}</td>
+            <td class="num tabular">${r.mealCost.toFixed(2)}</td>
+            <td class="num tabular">${r.bibidhShare.toFixed(2)}</td>
+            <td class="num tabular">${r.finalCost.toFixed(2)}</td>
+            <td class="num tabular">${r.contribution.toFixed(2)}</td>
+            <td class="num tabular ${r.balance >= 0 ? 'amt-positive' : 'amt-negative'}">
+              ${r.balance >= 0 ? `+${r.balance.toFixed(2)} (gets back)` : `${r.balance.toFixed(2)} (owes)`}
+            </td>
+          </tr>`).join('')}
+      </tbody>
+    </table>`;
+}
+
+function showSavedSettlement() {
+  const saved = store.getByKey('settlements', currentMonth());
+  const panel = document.getElementById('settlementPanel');
+  if (saved) {
+    renderSettlementPanel(saved);
+  } else {
+    panel.innerHTML = '<p style="color:var(--ink-soft); font-size:0.9rem; margin-top:16px;">No settlement saved for this month yet &mdash; click Calculate settlement below.</p>';
+  }
+}
+
 window.calculateSettlement = () => {
   const month = currentMonth();
-  const panel = document.getElementById('settlementPanel');
 
   const groceries = store.list('groceryEntries').filter(g => g.month === month);
+  const managerGroceries = store.list('managerGroceryEntries').filter(m => m.month === month);
   const deposits = store.list('deposits').filter(d => d.month === month);
   const bibidh = store.list('bibidhEntries').filter(b => b.month === month);
   const attendance = store.list('attendance').filter(a => a.month === month);
 
-  const totalGrocery = groceries.reduce((sum, g) => sum + Number(g.amount), 0);
+  const totalPersonalGrocery = groceries.reduce((sum, g) => sum + Number(g.amount), 0);
+  const totalManagerGrocery = managerGroceries.reduce((sum, m) => sum + Number(m.amount), 0);
+  const totalGrocery = totalPersonalGrocery + totalManagerGrocery;
+  const totalDeposits = deposits.reduce((sum, d) => sum + Number(d.amount), 0);
   const totalBibidh = bibidh.reduce((sum, b) => sum + Number(b.amount), 0);
 
   const mealsByStudent = {};
@@ -129,37 +207,20 @@ window.calculateSettlement = () => {
     const finalCost = mealCost + bibidhShare;
 
     const depositTotal = deposits.filter(d => d.studentId === s.id).reduce((sum, d) => sum + Number(d.amount), 0);
-    const grocerySpent = groceries.filter(g => g.studentId === s.id).reduce((sum, g) => sum + Number(g.amount), 0);
+    // Manager/pool purchases are never attributed to a person, so they never
+    // need excluding here - every entry in groceryEntries is personal money.
+    const grocerySpent = groceries
+      .filter(g => g.studentId === s.id)
+      .reduce((sum, g) => sum + Number(g.amount), 0);
     const contribution = depositTotal + grocerySpent;
 
     const balance = contribution - finalCost;
     return { name: s.name, meals, mealCost, bibidhShare, finalCost, contribution, balance };
   });
 
-  panel.innerHTML = `
-    <div class="stat-strip" style="margin-top:20px;">
-      <div class="stat"><div class="label">total grocery cost</div><div class="value tabular">${totalGrocery.toFixed(2)}</div></div>
-      <div class="stat"><div class="label">total meals (all people)</div><div class="value tabular">${totalMeals.toFixed(1)}</div></div>
-      <div class="stat"><div class="label">meal rate</div><div class="value accent tabular">${mealRate.toFixed(2)}</div></div>
-      <div class="stat"><div class="label">bibidh / person</div><div class="value tabular">${bibidhShare.toFixed(2)}</div></div>
-    </div>
-    <table class="roll">
-      <thead><tr><th>Name</th><th class="num">Meals</th><th class="num">Meal cost</th><th class="num">Bibidh share</th><th class="num">Final cost</th><th class="num">Contribution</th><th class="num">Balance</th></tr></thead>
-      <tbody>
-        ${rows.map(r => `
-          <tr>
-            <td>${r.name}</td>
-            <td class="num tabular">${r.meals.toFixed(1)}</td>
-            <td class="num tabular">${r.mealCost.toFixed(2)}</td>
-            <td class="num tabular">${r.bibidhShare.toFixed(2)}</td>
-            <td class="num tabular">${r.finalCost.toFixed(2)}</td>
-            <td class="num tabular">${r.contribution.toFixed(2)}</td>
-            <td class="num tabular ${r.balance >= 0 ? 'amt-positive' : 'amt-negative'}">
-              ${r.balance >= 0 ? `+${r.balance.toFixed(2)} (gets back)` : `${r.balance.toFixed(2)} (owes)`}
-            </td>
-          </tr>`).join('')}
-      </tbody>
-    </table>`;
+  const data = { month, totalGrocery, totalPersonalGrocery, totalManagerGrocery, totalDeposits, totalBibidh, totalMeals, mealRate, bibidhShare, rows };
+  store.upsertByKey('settlements', month, data);
+  renderSettlementPanel(data);
 };
 
 window.clearOldEntries = () => {
@@ -170,6 +231,7 @@ window.clearOldEntries = () => {
 
   const removed =
     store.removeWhere('groceryEntries', (g) => g.month < cutoffMonth) +
+    store.removeWhere('managerGroceryEntries', (m) => m.month < cutoffMonth) +
     store.removeWhere('deposits', (d) => d.month < cutoffMonth) +
     store.removeWhere('bibidhEntries', (b) => b.month < cutoffMonth);
 
@@ -179,3 +241,4 @@ window.clearOldEntries = () => {
 
 fillPersonSelects();
 renderLogs();
+showSavedSettlement();

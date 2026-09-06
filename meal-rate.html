@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Meal Rate Breakdown &mdash; Hostel &amp; Mess</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lora:wght@500;600;700&family=Work+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<script src="js/nav-toggle.js"></script>
+<button id="navToggle" class="nav-toggle" aria-label="Toggle menu">&#9776;</button>
+<div class="app-shell">
+  <aside class="sidebar">
+    <div class="brand">Hostel<span>&amp;Mess</span></div>
+    <nav>
+      <a href="index.html">Dashboard</a>
+      <a href="students.html">Students</a>
+      <a href="rooms.html">Rooms</a>
+      <a href="attendance.html">Mess attendance</a>
+      <a href="overview.html">Meal overview</a>
+      <a href="contribution.html">Contribution overview</a>
+      <a href="billing.html">Household bills</a>
+      <a href="calculation.html">Mess calculation</a>
+      <a href="meal-rate.html" class="active">Meal rate breakdown</a>
+    </nav>
+  </aside>
+
+  <main class="main">
+    <div class="page-head">
+      <h1>Meal rate breakdown</h1>
+      <div><label for="mrMonth" style="margin:0; display:inline;">Month</label> <input id="mrMonth" type="month" style="width:auto; display:inline-block;"></div>
+    </div>
+    <p style="color:var(--ink-soft); font-size:0.9rem; max-width:600px; margin-top:-10px;">
+      A transparent, step-by-step look at how the meal rate on the Mess calculation page is worked out for this month &mdash; so everyone can verify it themselves.
+    </p>
+
+    <h2 style="margin-top:28px;">Step 1 &mdash; Total grocery cost</h2>
+    <p style="color:var(--ink-soft); font-size:0.88rem;">Personal grocery spending per person, plus manager purchases made from the deposited pool (not tied to any one person).</p>
+    <table class="roll">
+      <thead><tr><th>Person</th><th class="num">Personal grocery spending</th></tr></thead>
+      <tbody id="groceryStepBody"></tbody>
+      <tfoot>
+        <tr><td>Manager (pool) purchases</td><td class="num tabular" id="managerStepTotal">0.00</td></tr>
+        <tr><td><strong>Total grocery cost</strong></td><td class="num tabular" id="groceryStepTotal">0.00</td></tr>
+      </tfoot>
+    </table>
+
+    <h2 style="margin-top:32px;">Step 2 &mdash; Total meals eaten</h2>
+    <p style="color:var(--ink-soft); font-size:0.88rem;">For each person: breakfast days &times; 0.5, plus lunch days &times; 1, plus dinner days &times; 1.</p>
+    <table class="roll">
+      <thead><tr><th>Person</th><th class="num">Breakfast days</th><th class="num">Lunch days</th><th class="num">Dinner days</th><th class="num">Weighted total</th></tr></thead>
+      <tbody id="mealStepBody"></tbody>
+      <tfoot><tr><td colspan="4"><strong>Total meals (everyone)</strong></td><td class="num tabular" id="mealStepTotal">0.0</td></tr></tfoot>
+    </table>
+
+    <h2 style="margin-top:32px;">Step 3 &mdash; Meal rate</h2>
+    <div class="bill-panel" style="max-width:480px;">
+      <div class="bill-line"><span>Total grocery cost (own money + pool)</span><span class="tabular" id="mrGrocery">0.00</span></div>
+      <div class="bill-line"><span>&divide; Total meals (everyone)</span><span class="tabular" id="mrMeals">0.0</span></div>
+      <div class="bill-total"><span>= Meal rate (per meal)</span><span class="tabular" id="mrRate">0.00</span></div>
+    </div>
+  </main>
+</div>
+
+<script type="module" src="js/meal-rate.js"></script>
+</body>
+</html>

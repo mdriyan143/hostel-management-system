@@ -2,7 +2,6 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Students &mdash; Hostel &amp; Mess</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lora:wght@500;600;700&family=Work+Sans:wght@400;500;600&display=swap">
 <link rel="stylesheet" href="css/style.css">
@@ -22,6 +21,7 @@
       <a href="contribution.html">Contribution overview</a>
       <a href="billing.html">Household bills</a>
       <a href="calculation.html">Mess calculation</a>
+      <a href="meal-rate.html">Meal rate breakdown</a>
     </nav>
   </aside>
 
@@ -31,7 +31,7 @@
       <button onclick="openForm()">Add student</button>
     </div>
 
-    <div id="formPanel" class="form-panel" style="display:none;">
+    <div id="formPanel" style="display:none; margin-bottom:24px; border:1px dotted var(--line); padding:20px;">
       <h3 id="formTitle">Add student</h3>
       <input type="hidden" id="studentId">
       <div class="field-row">
