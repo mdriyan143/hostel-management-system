@@ -2,15 +2,11 @@ import { store } from "./store.js";
 
 const dateInput = document.getElementById('attDate');
 const today = new Date();
-const yesterday = new Date(today);
-yesterday.setDate(today.getDate() - 1);
 const toISODate = (d) => d.toISOString().slice(0, 10);
 
 dateInput.value = toISODate(today);
-dateInput.min = toISODate(yesterday);
 dateInput.max = toISODate(today);
 dateInput.onchange = () => {
-  if (dateInput.value < dateInput.min) dateInput.value = dateInput.min;
   if (dateInput.value > dateInput.max) dateInput.value = dateInput.max;
   renderTable();
 };
