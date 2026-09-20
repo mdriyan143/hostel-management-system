@@ -8,7 +8,14 @@ The application is completely **frontend-based** and uses the browser's **Local 
 
 ## 🌐 Live Demo
 
-🚀 **Live Website:**
+### ⚛️ React Version
+
+🚀 **Live Website:**  
+https://hostel-hub-mdriyan143.netlify.app/
+
+### 🌐 Vanilla JavaScript Version
+
+🚀 **GitHub Pages:**  
 https://mdriyan143.github.io/hostel-management-system/
 
 Explore the live application and manage:
@@ -217,16 +224,13 @@ Each student's applicable share can be calculated separately from the monthly me
 
 ## 🛠️ Technologies Used
 
-* HTML5
-* CSS3
-* JavaScript (ES6+)
-* Browser Local Storage
-
+- ⚛️ **React** — UI development
+- 🔷 **TypeScript** — Type-safe application logic
+- 🎨 **Tailwind CSS** — Styling and responsive design
+- ⚡ **Vite** — Development and build tool
+- 🧭 **React Router** — Client-side routing
+- 💾 **Local Storage** — Browser-based data persistence
 ---
-
-## 💾 Data Storage
-
-This project uses the browser's **Local Storage**.
 
 That means:
 
@@ -243,33 +247,27 @@ That means:
 ## 📂 Project Structure
 
 ```text
-hostel-mess-management-system/
+hostel-management-system/
 │
+├── public/
+│
+├── src/
+│   ├── assets/
+│   ├── components/
+│   ├── context/
+│   ├── lib/
+│   ├── pages/
+│   ├── App.tsx
+│   ├── main.tsx
+│   ├── types.ts
+│   └── index.css
+│
+├── .gitignore
 ├── index.html
-├── students.html
-├── rooms.html
-├── attendance.html
-├── overview.html
-├── contribution.html
-├── billing.html
-├── calculation.html
-├── meal-rate.html
-│
-├── css/
-│   └── style.css
-│
-└── js/
-    ├── store.js
-    ├── nav-toggle.js
-    ├── students.js
-    ├── rooms.js
-    ├── attendance.js
-    ├── overview.js
-    ├── contribution.js
-    ├── billing.js
-    ├── calculation.js
-    └── meal-rate.js
-```
+├── package.json
+├── package-lock.json
+├── tsconfig.json
+├── vite.config.ts
 
 ---
 
