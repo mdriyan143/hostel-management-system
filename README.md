@@ -13,11 +13,6 @@ The application is completely **frontend-based** and uses the browser's **Local 
 🚀 **Live Website:**  
 https://hostel-hub-mdriyan143.netlify.app/
 
-### 🌐 Vanilla JavaScript Version
-
-🚀 **GitHub Pages:**  
-https://mdriyan143.github.io/hostel-management-system/
-
 Explore the live application and manage:
 
 * 👨‍🎓 Students
