@@ -86,7 +86,7 @@ export default function Students() {
       </PageHead>
 
       {formOpen && (
-        <div className="mb-6 border border-dotted border-line p-5">
+        <div className="form-card">
           <h3>{form.id ? 'Edit student' : 'Add student'}</h3>
           <div className="field-row">
             <div>

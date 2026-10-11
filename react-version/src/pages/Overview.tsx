@@ -67,14 +67,14 @@ export default function Overview() {
 
       <div className="legend">
         <span>Fewer meals</span>
-        <span className="swatch" style={{ background: '#F1E9DC' }}></span>
-        <span className="swatch" style={{ background: '#DCE8DB' }}></span>
-        <span className="swatch" style={{ background: '#C1D9BF' }}></span>
-        <span className="swatch" style={{ background: '#A3C8A0' }}></span>
-        <span className="swatch" style={{ background: '#83B47F' }}></span>
+        <span className="swatch" style={{ background: '#EEF1EA' }}></span>
+        <span className="swatch" style={{ background: '#D8EADC' }}></span>
+        <span className="swatch" style={{ background: '#B4D8BC' }}></span>
+        <span className="swatch" style={{ background: '#88C196' }}></span>
+        <span className="swatch" style={{ background: '#58A06A' }}></span>
         <span className="swatch" style={{ background: 'var(--color-sage-dark)' }}></span>
         <span>More meals</span>
-        <span className="swatch ml-5" style={{ background: 'var(--color-parchment)', borderStyle: 'dashed' }}></span>
+        <span className="swatch ml-5" style={{ background: 'var(--color-panel-soft)', borderStyle: 'dashed' }}></span>
         <span>Not marked</span>
       </div>
 
